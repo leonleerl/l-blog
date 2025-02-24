@@ -1,0 +1,91 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "Getting Started with Next.js Hello",
+      "slug": "getting-started-with-nextjs",
+      "content": "Next.js is a powerful React framework...",
+      "excerpt": "Learn the basics of Next.js and why it's great for your next project",
+      "published": false,
+      "featured": true,
+      "authorId": "1",
+      "categoryId": "1",
+      "tags": [
+        "nextjs",
+        "react"
+      ],
+      "viewCount": 0,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2025-02-24T08:55:29.453Z"
+    },
+    {
+      "id": "970f",
+      "title": "Second one ",
+      "slug": "Second one slug",
+      "content": "Fantastic content",
+      "excerpt": "Very fun!!",
+      "published": true,
+      "featured": false,
+      "authorId": "1",
+      "categoryId": "1",
+      "tags": [],
+      "viewCount": 0,
+      "createdAt": "2025-02-24T08:57:07.717Z",
+      "updatedAt": "2025-02-24T08:57:16.891Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@example.com",
+      "name": "Admin User",
+      "role": "admin",
+      "bio": "Blog administrator",
+      "avatarUrl": null,
+      "socialLinks": {
+        "twitter": "adminuser",
+        "github": "adminuser"
+      },
+      "createdAt": "2024-03-20T10:00:00Z",
+      "updatedAt": "2024-03-20T10:00:00Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Development",
+      "slug": "development",
+      "description": "Tech-related posts",
+      "parentId": null,
+      "postCount": 1,
+      "createdAt": "2024-03-20T10:00:00Z",
+      "updatedAt": "2024-03-20T10:00:00Z"
+    }
+  ],
+  "tags": [
+    {
+      "id": "1",
+      "name": "nextjs",
+      "slug": "nextjs",
+      "postCount": 1
+    },
+    {
+      "id": "2",
+      "name": "react",
+      "slug": "react",
+      "postCount": 1
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "content": "Great article!",
+      "postId": "1",
+      "authorId": "1",
+      "parentId": null,
+      "isApproved": true,
+      "createdAt": "2024-03-20T10:00:00Z",
+      "updatedAt": "2024-03-20T10:00:00Z"
+    }
+  ]
+}
