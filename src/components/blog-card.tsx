@@ -21,7 +21,7 @@ function BlogCard({post}: {post: Article}) {
               key={category.id}
               variant="solid" 
               radius="full" 
-              className="bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200"
+              className="bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 ml-1"
             >
               {category.name}
             </Badge>

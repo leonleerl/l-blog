@@ -8,6 +8,7 @@ interface Article {
     date: string;
     image: string;
     categories: Category[];
+    is_featured: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

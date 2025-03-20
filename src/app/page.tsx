@@ -5,21 +5,25 @@ import Link from 'next/link';
 import { Text, Box, Flex, Heading, Container } from '@radix-ui/themes';
 import { useArticles } from '@/hooks/useArticles';
 import { Article } from '@/models/article';
-import { BlogCardHome, FeaturedPost } from '@/components';
-
+import { BlogCardHome, FeaturedCarousel } from '@/components';
 
 export default function Home() {
   const { articles, isLoading, error, fetchArticles } = useArticles();
-  const [featuredPost, setFeaturedPost] = useState<Article | null>(null);
+  const [featuredPosts, setFeaturedPosts] = useState<Article[]>([]);
   const [recentPosts, setRecentPosts] = useState<Article[]>([]);
 
   useEffect(() => {
     if (articles.length > 0) {
-      // Set featured post to the first article
-      setFeaturedPost(articles[0]);
+      // Filter featured posts
+      const featured = articles.filter(article => article.is_featured);
+      setFeaturedPosts(featured);
       
-      // Set recent posts to the rest of the articles
-      setRecentPosts(articles.slice(1));
+      // Get recent posts that aren't featured
+      const recent = articles
+        .filter(article => !article.is_featured)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, 6); // Limit to 6 recent posts
+      setRecentPosts(recent);
     }
   }, [articles]);
 
@@ -67,9 +71,9 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* Featured Post */}
-      {featuredPost && (
-        <FeaturedPost post={featuredPost} />
+      {/* Featured Posts Carousel */}
+      {featuredPosts.length > 0 && (
+        <FeaturedCarousel featuredPosts={featuredPosts} />
       )}
 
       {/* Recent Posts */}

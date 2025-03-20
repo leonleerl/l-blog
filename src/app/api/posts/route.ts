@@ -60,7 +60,8 @@ const articles: Article[] = [
     content: '这是我的第一篇博客的详细内容。这里可以放更多的文字，图片和其他内容。作为我的第一篇博客，我想分享一些关于为什么我开始写博客的想法。写博客不仅可以记录自己的思考，还能与他人分享知识和经验。希望我的文章能够对读者有所帮助或启发。',
     date: '2025-03-20',
     image: '/images/yellow.jpeg',
-    categories: [getCategory('个人日记')],
+    categories: [getCategory('个人日记'), getCategory('旅行')],
+    is_featured: true,
     createdAt: new Date('2025-03-20'),
     updatedAt: new Date('2025-03-20')
   },
@@ -72,6 +73,7 @@ const articles: Article[] = [
     date: '2025-03-18',
     image: '/images/yellow.jpeg',
     categories: [getCategory('旅行')],
+    is_featured: true,
     createdAt: new Date('2025-03-18'),
     updatedAt: new Date('2025-03-18')
   },
@@ -83,6 +85,7 @@ const articles: Article[] = [
     date: '2025-03-15',
     image: '/images/yellow.jpeg',
     categories: [getCategory('技术')],
+    is_featured: true,
     createdAt: new Date('2025-03-15'),
     updatedAt: new Date('2025-03-15')
   },
@@ -94,6 +97,7 @@ const articles: Article[] = [
     date: '2025-03-10',
     image: '/images/yellow.jpeg',
     categories: [getCategory('摄影')],
+    is_featured: false,
     createdAt: new Date('2025-03-10'),
     updatedAt: new Date('2025-03-10')
   },
@@ -105,6 +109,7 @@ const articles: Article[] = [
     date: '2025-03-05',
     image: '/images/yellow.jpeg',
     categories: [getCategory('读书')],
+    is_featured: false,
     createdAt: new Date('2025-03-05'),
     updatedAt: new Date('2025-03-05')
   }
@@ -171,6 +176,7 @@ export async function POST(request: Request) {
       date: body.date || new Date().toISOString().split('T')[0],
       image: body.image || '/images/yellow.jpeg',
       categories: articleCategories.length > 0 ? articleCategories : [getCategory('未分类')],
+      is_featured: body.is_featured || false,
       createdAt: new Date(),
       updatedAt: new Date()
     };
