@@ -1,101 +1,180 @@
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+import { Card, Text, Box, Flex, Heading, Badge, Container } from '@radix-ui/themes';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const featuredPost = {
+    id: 1,
+    title: '我的第一篇博客',
+    description: '这是我的第一篇博客，欢迎阅读。这里可以放一段较长的介绍，让读者对文章内容有更深入的了解。',
+    date: '2025-03-20',
+    image: '/images/yellow.jpeg',
+    category: '个人日记'
+  };
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const posts = [
+    {
+      id: 2,
+      title: '旅行的意义',
+      description: '记录一些旅行中的感悟与美景。',
+      date: '2025-03-18',
+      image: '/images/yellow.jpeg',
+      category: '旅行'
+    },
+    {
+      id: 3,
+      title: 'React学习心得',
+      description: '分享最近学习React的一些经验。',
+      date: '2025-03-15',
+      image: '/images/yellow.jpeg',
+      category: '技术'
+    },
+    {
+      id: 4,
+      title: '摄影技巧分享',
+      description: '一些实用的摄影技巧和心得体会。',
+      date: '2025-03-10',
+      image: '/images/yellow.jpeg',
+      category: '摄影'
+    },
+    {
+      id: 5,
+      title: '读书笔记：《活着》',
+      description: '读完余华的《活着》后的一些思考。',
+      date: '2025-03-05',
+      image: '/images/yellow.jpeg',
+      category: '读书'
+    },
+  ];
+
+  return (
+    <>
+      {/* Hero Section */}
+      <Box className="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+        <Container size="3" className="py-20 px-4">
+          <Flex direction="column" align="center" gap="4" className="text-center">
+            <Heading size="9" className="text-gray-900 dark:text-white">我的博客空间</Heading>
+            <Text size="5" className="text-gray-600 dark:text-gray-300 max-w-xl">
+              分享我的思考、经历与见解，记录生活中的点滴感悟与成长
+            </Text>
+          </Flex>
+        </Container>
+      </Box>
+
+      {/* Featured Post */}
+      <Container size="3" className="px-4 py-16">
+        <Heading size="6" className="mb-6">精选文章</Heading>
+        <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <Flex direction={{ initial: 'column', md: 'row' }} className="h-full">
+            <Box className="md:w-1/2 relative" style={{ minHeight: '400px' }}>
+              <Image 
+                src={featuredPost.image} 
+                alt={featuredPost.title}
+                fill
+                className="object-cover"
+              />
+            </Box>
+            <Flex 
+              direction="column" 
+              justify="between" 
+              className="p-8 md:w-1/2"
+            >
+              <Box>
+                <Flex gap="2" align="center" className="mb-3">
+                  <Badge variant="soft" radius="full">{featuredPost.category}</Badge>
+                  <Text size="2" className="text-gray-400">
+                    {new Date(featuredPost.date).toLocaleDateString()}
+                  </Text>
+                </Flex>
+                <Heading size="6" className="mb-4">
+                  <Link href={`/posts/${featuredPost.id}`} className="hover:text-blue-600 transition-colors">
+                    {featuredPost.title}
+                  </Link>
+                </Heading>
+                <Text className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3">
+                  {featuredPost.description}
+                </Text>
+              </Box>
+              <Link 
+                href={`/posts/${featuredPost.id}`} 
+                className="text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
+              >
+                阅读更多 &rarr;
+              </Link>
+            </Flex>
+          </Flex>
+        </Card>
+      </Container>
+
+      {/* Recent Posts */}
+      <Box className="bg-gray-50 dark:bg-gray-900">
+        <Container size="3" className="px-4 py-16">
+          <Flex justify="between" align="center" className="mb-6">
+            <Heading size="6">最新文章</Heading>
+            <Link href="/posts" className="text-blue-600 hover:text-blue-700 font-medium">
+              查看全部 &rarr;
+            </Link>
+          </Flex>
+          
+          <Flex wrap="wrap" gap="6">
+            {posts.map(post => (
+              <Box key={post.id} className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+                <Card 
+                  className="h-full overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col"
+                >
+                  <Box className="aspect-video relative">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </Box>
+                  <Flex direction="column" className="p-6 flex-grow">
+                    <Flex gap="2" align="center" className="mb-3">
+                      <Badge variant="soft" radius="full">{post.category}</Badge>
+                      <Text size="2" className="text-gray-400">
+                        {new Date(post.date).toLocaleDateString()}
+                      </Text>
+                    </Flex>
+                    <Heading size="4" className="mb-2">
+                      <Link href={`/posts/${post.id}`} className="hover:text-blue-600 transition-colors">
+                        {post.title}
+                      </Link>
+                    </Heading>
+                    <Text className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2 flex-grow">
+                      {post.description}
+                    </Text>
+                    <Link 
+                      href={`/posts/${post.id}`} 
+                      className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+                    >
+                      阅读更多 &rarr;
+                    </Link>
+                  </Flex>
+                </Card>
+              </Box>
+            ))}
+          </Flex>
+        </Container>
+      </Box>
+
+      {/* Footer */}
+      <Box className="bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+        <Container size="3" className="px-4 py-12">
+          <Flex direction="column" align="center" gap="4">
+            <Heading size="5">我的博客</Heading>
+            <Flex gap="6">
+              <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors">首页</Link>
+              <Link href="/about" className="text-gray-600 hover:text-blue-600 transition-colors">关于我</Link>
+              <Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">联系方式</Link>
+            </Flex>
+            <Text size="2" className="text-gray-400 mt-4">
+              © {new Date().getFullYear()} 我的博客 | 保留所有权利
+            </Text>
+          </Flex>
+        </Container>
+      </Box>
+    </>
   );
 }
