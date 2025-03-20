@@ -14,13 +14,20 @@ function BlogCard({post}: {post: Article}) {
         fill
         className="object-cover"
       />
-      <Badge 
-        variant="solid" 
-        radius="full" 
-        className="absolute top-3 right-3 bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200"
-      >
-        {post.category}
-      </Badge>
+      {post.categories && post.categories.length > 0 && (
+        <Box className="absolute top-3 right-3 flex gap-2">
+          {post.categories.map((category) => (
+            <Badge 
+              key={category.id}
+              variant="solid" 
+              radius="full" 
+              className="bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200"
+            >
+              {category.name}
+            </Badge>
+          ))}
+        </Box>
+      )}
     </Box>
     <Box className="p-5">
       <Text size="2" className="text-gray-500 dark:text-gray-400 mb-2">

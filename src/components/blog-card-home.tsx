@@ -20,7 +20,11 @@ function BlogCardHome({ post }: { post: Article }) {
       </Box>
       <Flex direction="column" className="p-6 flex-grow">
         <Flex gap="2" align="center" className="mb-3">
-          <Badge variant="soft" radius="full">{post.category}</Badge>
+          {post.categories && post.categories.length > 0 && (
+            <Badge variant="soft" radius="full">
+              {post.categories[0].name}
+            </Badge>
+          )}
           <Text size="2" className="text-gray-400">
             {new Date(post.date).toLocaleDateString()}
           </Text>

@@ -1,5 +1,55 @@
 import { NextResponse } from 'next/server';
 import { Article } from '@/models/article';
+import { Category } from '@/models/category';
+
+// Get categories from the mock database (in a real app, would use a database)
+const getCategory = (name: string): Category => {
+  const categories = [
+    {
+      id: 1,
+      name: '个人日记',
+      description: '记录个人生活、思考和感悟的文章',
+      createdAt: new Date('2025-01-01'),
+      updatedAt: new Date('2025-01-01')
+    },
+    {
+      id: 2,
+      name: '旅行',
+      description: '旅行经历、景点推荐和旅游攻略',
+      createdAt: new Date('2025-01-02'),
+      updatedAt: new Date('2025-01-02')
+    },
+    {
+      id: 3,
+      name: '技术',
+      description: '编程、开发和技术学习相关内容',
+      createdAt: new Date('2025-01-03'),
+      updatedAt: new Date('2025-01-03')
+    },
+    {
+      id: 4,
+      name: '摄影',
+      description: '摄影技巧、作品和心得分享',
+      createdAt: new Date('2025-01-04'),
+      updatedAt: new Date('2025-01-04')
+    },
+    {
+      id: 5,
+      name: '读书',
+      description: '读书笔记、书评和阅读心得',
+      createdAt: new Date('2025-01-05'),
+      updatedAt: new Date('2025-01-05')
+    }
+  ];
+  
+  return categories.find(cat => cat.name === name) || {
+    id: 99,
+    name: '未分类',
+    description: '未分类的文章',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
+};
 
 // Mock database
 const articles: Article[] = [
@@ -10,7 +60,7 @@ const articles: Article[] = [
     content: '这是我的第一篇博客的详细内容。这里可以放更多的文字，图片和其他内容。作为我的第一篇博客，我想分享一些关于为什么我开始写博客的想法。写博客不仅可以记录自己的思考，还能与他人分享知识和经验。希望我的文章能够对读者有所帮助或启发。',
     date: '2025-03-20',
     image: '/images/yellow.jpeg',
-    category: '个人日记',
+    categories: [getCategory('个人日记')],
     createdAt: new Date('2025-03-20'),
     updatedAt: new Date('2025-03-20')
   },
@@ -21,7 +71,7 @@ const articles: Article[] = [
     content: '旅行对每个人的意义可能都不同。对我来说，旅行是一种探索未知、拓展视野的方式。在旅途中，我们会遇到不同的人、不同的文化，这些经历会丰富我们的人生阅历。同时，旅行也是一种放松身心的方式，让我们暂时脱离日常生活的压力，重新审视自己的生活和目标。',
     date: '2025-03-18',
     image: '/images/yellow.jpeg',
-    category: '旅行',
+    categories: [getCategory('旅行')],
     createdAt: new Date('2025-03-18'),
     updatedAt: new Date('2025-03-18')
   },
@@ -32,7 +82,7 @@ const articles: Article[] = [
     content: 'React是一个用于构建用户界面的JavaScript库，它的核心思想是组件化和单向数据流。在学习React的过程中，我发现理解其核心概念是非常重要的，例如JSX、组件、props、state等。特别是状态管理，是React开发中的关键部分。此外，React生态系统也非常丰富，有很多优秀的库可以配合使用，如Redux、React Router等。',
     date: '2025-03-15',
     image: '/images/yellow.jpeg',
-    category: '技术',
+    categories: [getCategory('技术')],
     createdAt: new Date('2025-03-15'),
     updatedAt: new Date('2025-03-15')
   },
@@ -43,7 +93,7 @@ const articles: Article[] = [
     content: '摄影是捕捉光与影的艺术。好的摄影作品不仅仅是技术的体现，更是情感和视角的表达。在这篇文章中，我想分享一些基本但实用的摄影技巧，例如构图的原则、光线的运用、快门速度与光圈的关系等。此外，后期处理也是现代摄影不可或缺的一部分，适当的后期调整可以让照片更具表现力。',
     date: '2025-03-10',
     image: '/images/yellow.jpeg',
-    category: '摄影',
+    categories: [getCategory('摄影')],
     createdAt: new Date('2025-03-10'),
     updatedAt: new Date('2025-03-10')
   },
@@ -54,7 +104,7 @@ const articles: Article[] = [
     content: '余华的《活着》是一部展现中国农村生活和人性的作品。通过福贵的一生，余华向我们展示了在时代变迁中个人命运的沉浮。这本书让我思考了很多关于生命意义、苦难与希望的问题。尽管福贵经历了无数的不幸和痛苦，但他仍然选择活着，这种坚韧和生命力是令人敬佩的。',
     date: '2025-03-05',
     image: '/images/yellow.jpeg',
-    category: '读书',
+    categories: [getCategory('读书')],
     createdAt: new Date('2025-03-05'),
     updatedAt: new Date('2025-03-05')
   }
@@ -92,6 +142,26 @@ export async function POST(request: Request) {
       );
     }
 
+    // Handle categories
+    let articleCategories: Category[] = [];
+    if (body.categories) {
+      if (Array.isArray(body.categories)) {
+        // If categories are already objects with ids
+        if (typeof body.categories[0] === 'object' && body.categories[0].id) {
+          articleCategories = body.categories;
+        } else {
+          // If categories are strings
+          articleCategories = body.categories.map((name: string) => getCategory(name));
+        }
+      } else if (typeof body.categories === 'string') {
+        // If a single category string is provided
+        articleCategories = [getCategory(body.categories)];
+      }
+    } else if (body.category) {
+      // Backward compatibility with old field name
+      articleCategories = [getCategory(body.category)];
+    }
+
     // Create new article
     const newArticle: Article = {
       id: (articles.length + 1).toString(),
@@ -100,7 +170,7 @@ export async function POST(request: Request) {
       content: body.content,
       date: body.date || new Date().toISOString().split('T')[0],
       image: body.image || '/images/yellow.jpeg',
-      category: body.category || '未分类',
+      categories: articleCategories.length > 0 ? articleCategories : [getCategory('未分类')],
       createdAt: new Date(),
       updatedAt: new Date()
     };

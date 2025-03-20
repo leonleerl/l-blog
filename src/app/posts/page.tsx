@@ -5,19 +5,23 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Text, Box, Flex, Heading, Container, Tabs, Select, Grid } from '@radix-ui/themes';
 import { useArticles } from '@/hooks/useArticles';
+import { useCategories } from '@/hooks/useCategories';
 import { Article } from '@/models/article';
 import { BlogCard } from '@/components';
 
 
 export default function PostsPage() {
-  // Categories for filter
-  const categories = ['全部', '个人日记', '旅行', '技术', '摄影', '读书'];
+  // Get all categories from API
+  const { categories } = useCategories();
   
   // State for articles, filtering and sorting
   const { articles, isLoading, error } = useArticles();
   const [filteredPosts, setFilteredPosts] = useState<Article[]>([]);
   const [activeCategory, setActiveCategory] = useState('全部');
   const [sortOrder, setSortOrder] = useState('newest');
+
+  // Generate tabs for all categories
+  const categoryTabs = ['全部', ...categories.map(cat => cat.name)];
 
   // Filter and sort articles when they change or filter/sort options change
   useEffect(() => {
@@ -27,7 +31,9 @@ export default function PostsPage() {
     
     // Apply category filter
     if (activeCategory !== '全部') {
-      result = result.filter(post => post.category === activeCategory);
+      result = result.filter(post => 
+        post.categories.some(category => category.name === activeCategory)
+      );
     }
     
     // Apply sorting
@@ -107,7 +113,7 @@ export default function PostsPage() {
         >
           <Tabs.Root defaultValue="全部" onValueChange={handleCategoryChange}>
             <Tabs.List>
-              {categories.map(category => (
+              {categoryTabs.map(category => (
                 <Tabs.Trigger key={category} value={category}>
                   {category}
                 </Tabs.Trigger>
